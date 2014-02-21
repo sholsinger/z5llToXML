@@ -1,10 +1,10 @@
-#!/usr/bin/ruby
+#!/usr/local/bin/ruby
 # z5llToXML.rb
 
+load 'lib/CountryMap.rb'
 require 'csv'
-require 'rexml/document'
-require 'lib/CountryMap.rb'
-include REXML
+require 'rubygems'
+require 'libxml'
 
 HELP_TEXT = <<HELP
 Usage: ./z5llToXML.rb <switches> <file1> <file2>
@@ -21,12 +21,13 @@ Arguments:
 --version   -v  Outputs version information.
 --help      -h  Outputs this help text.
 HELP
-Z5_VERSION = "Z5llToXML version 1.1a"
+Z5_VERSION = 'Z5llToXML version 1.1a'
+GEOLOCATION_NS = 'http://www.demandware.com/xml/impex/geolocation/2007-05-01'
 
 # class to encapsulate all logic for converting z5ll.txt files to DWRE Gelocation XML
 class Z5llToXML
 	
-	def initialize(fname, cc = "US")
+	def initialize(fname, cc = 'US')
 		@fileName = fname
 		@countryCode = cc
 
@@ -34,6 +35,8 @@ class Z5llToXML
 		@currentRow = 0
 		@completion = 0
 		@geolocations = nil
+		@outputFileName = nil
+		@document = nil
 	end
 
 	# Process the file
@@ -58,7 +61,7 @@ class Z5llToXML
 			end
 
 			# write XML file to disk
-			self.writeXMLFile( @outputFileName )
+			self.writeXMLFile()
 			
 			# notify we're done
 			puts( "Writing output to file #{@outputFileName}" )
@@ -75,39 +78,46 @@ class Z5llToXML
 	end
 
 	def openXMLFile ()
-		document = Document.new
-		document.add_element "geolocations", {"xmlns" => "http://www.demandware.com/xml/impex/geolocation/2007-05-01", "country-code" => @countryCode.to_s }
-		document << XMLDecl.new
+		document = LibXML::XML::Writer.file(@outputFileName)
+		document.start_document :encoding => LibXML::XML::Encoding::UTF_8
+		document.start_element_ns nil, 'geolocations', GEOLOCATION_NS
+		#document.write_attribute 'xmlns', GEOLOCATION_NS
+		document.write_attribute('country-code', @countryCode.to_s)
+		document.flush
 		return document
 	end
 
-	def writeXMLFile( file )
-		@document.write( File.new( file, "wb" ), -1, false, true )
+	def writeXMLFile()
+		#@document.write( File.new( file, "wb" ), -1, false, true )
+		@document.end_element #'geolocations'
+		@document.flush
 	end
 
 	def processCSVRow( row )
 		@currentRow+=1
-		unless row == nil || row[0].to_s.include?("Copyright") || row[0].to_s.include?("City") || !isStateOfCurrentCountry?(row[1])
+		unless row == nil || row[0].to_s.include?('Copyright') || row[0].to_s.include?('City') || !isStateOfCurrentCountry?(row[1])
 			puts( "Processing row: #{row.join(',')}" )
-			if @geolocations == nil
-				@geolocations = @document.get_elements("//geolocations").first
-			end
-			unless @geolocations == nil || row == nil || row.empty?
-				geolocation = @geolocations.add_element "geolocation", {"postal-code" => row[2] }
-				city = geolocation.add_element "city", {"xml:lang" => "x-default"}
-				city.text = row[0]
-				state = geolocation.add_element "state", {"xml:lang" => "x-default"}
-				state.text = row[1]
-				long = geolocation.add_element "longitude"
-				long.text = row[9]
-				lat = geolocation.add_element "latitude"
-				lat.text = row[8]
-				# clear up ram
-				geolocation = city = state = long = lat = nil
-			end
-			if @currentRow % 1000 == 0
-				puts("Collecting garbage.")
-				GC.start
+			unless row == nil || row.empty?
+				@document.start_element 'geolocation'
+				@document.write_attribute 'postal-code', row[2]
+				
+				@document.start_element 'city'
+				@document.write_attribute_ns 'xml', 'lang', nil, 'x-default'
+				@document.write_string row[0]
+				@document.end_element #'city'
+
+				@document.start_element 'state'
+				@document.write_attribute_ns 'xml', 'lang', nil, 'x-default'
+				@document.write_string row[1]
+				@document.end_element #'state'
+
+				@document.write_element 'longitude', row[9]
+				
+				@document.write_element 'latitude', row[8]
+				
+
+				@document.end_element #'geolocation'
+				@document.flush
 			end
 		end
 	end
