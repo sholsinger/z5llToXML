@@ -1,7 +1,8 @@
 z5llToXML
 =========
 
-Tools for converting ZipInfo.com z5ll.txt files to Demandware Geolocation XML format files.
+Tools for converting ZipInfo.com `z5ll.txt` and `zcugoem.txt` files to Demandware 
+Geolocation XML format files.
 
 Usage
 -----
@@ -15,6 +16,13 @@ You can also convert multiple files at once:
 
     $ ./z5llToXML.rb /path/to/z5ll.txt /path/to/another/z5ll.txt
 
+Some files contain multiple country postal codes. If your file contains multiple codes 
+such as the `zcugoem.txt` file that contains both US & CA postal codes. Simply use the 
+`-c` or `--country` flag to specify the country codes that are in the file(s). Currently 
+z5llToXML supports only US & CA.
+
+    $ ./z5llToXML.rb -c US,CA /path/to/zcugoem.txt
+
 Roadmap
 -------
 
@@ -23,3 +31,6 @@ Roadmap
   in system memory. One way it currently attempts to deal with this issue is to (in bad form)
   trigger garbage collection after every 1000 rows processed. This helps keep the program from
   eating up too much RAM and causing severe slowdowns.
+  
+  **Update:** This was resolved in 1.1a when we switched to libxml-ruby rather than using 
+  REXML for XML writing.
