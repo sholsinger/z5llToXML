@@ -1,4 +1,4 @@
-countryMap = {
+COUNTRY_MAP = {
 	"US"=>[
 		"AL",
 		"AK",
