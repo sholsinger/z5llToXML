@@ -26,11 +26,11 @@ z5llToXML supports only US & CA.
 Roadmap
 -------
 
-1. Currently the script can use several megabytes of RAM and ideally will be converted to
+1. ~~Currently the script can use several megabytes of RAM and ideally will be converted to
   perform progressive writes to the output file rather than storing the entire XML document
   in system memory. One way it currently attempts to deal with this issue is to (in bad form)
   trigger garbage collection after every 1000 rows processed. This helps keep the program from
-  eating up too much RAM and causing severe slowdowns.
+  eating up too much RAM and causing severe slowdowns.~~
   
   **Update:** This was resolved in 1.1a when we switched to libxml-ruby rather than using 
   REXML for XML writing.
