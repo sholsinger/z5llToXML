@@ -4,8 +4,18 @@ z5llToXML
 Tools for converting ZipInfo.com `z5ll.txt` and `zcugoem.txt` files to Demandware 
 Geolocation XML format files.
 
+Dependencies
+------------
+
+* (for OSX) [XCode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) & Command Line Utilites
+* [Bundler](http://bundler.io/) gem
+
 Usage
 -----
+
+To setup dependencies you must run the following command:
+
+    $ bundle install
 
 To convert a file from ZipInfo.com's CSV format into an importable Demandware Geolocation 
 XML file is as simple as running the following command:
