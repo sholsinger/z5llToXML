@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/ruby
 # z5llToXML.rb
 
 load 'lib/CountryMap.rb'
