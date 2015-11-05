@@ -95,7 +95,7 @@ class Z5llToXML
 
 	def processCSVRow( row )
 		@currentRow+=1
-		unless row == nil || row[0].to_s.include?('Copyright') || row[0].to_s.include?('City') || !isStateOfCurrentCountry?(row[1])
+		unless row == nil || row[0].to_s.include?('Copyright') || row[0].to_s.eql?('City') || !isStateOfCurrentCountry?(row[1])
 			puts( "Processing row: #{row.join(',')}" )
 			unless row == nil || row.empty?
 				@document.start_element 'geolocation'
