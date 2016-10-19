@@ -3,7 +3,6 @@
 
 load 'lib/CountryMap.rb'
 require 'csv'
-require 'rubygems'
 require 'libxml'
 
 HELP_TEXT = <<HELP
@@ -21,7 +20,7 @@ Arguments:
 --version   -v  Outputs version information.
 --help      -h  Outputs this help text.
 HELP
-Z5_VERSION = 'Z5llToXML version 1.2'
+Z5_VERSION = 'Z5llToXML version 1.2.1'
 GEOLOCATION_NS = 'http://www.demandware.com/xml/impex/geolocation/2007-05-01'
 
 # class to encapsulate all logic for converting z5ll.txt files to DWRE Gelocation XML

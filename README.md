@@ -33,6 +33,22 @@ z5llToXML supports only US & CA.
 
     $ ./z5llToXML.rb -c US,CA /path/to/zcugoem.txt
 
+If You Have Trouble Executing
+-----------------------------
+If you're having issues running this script in your native environment, I 
+recommend using (`rvm`)[https://rvm.io/] with Ruby version 2.1.2 which this 
+script was written against. Here's an example of the commands to run once 
+you've installed rvm.
+
+    $ rvm install ruby-2.1.2
+    $ rvm use ruby-2.1.2
+    $ gem install bundler
+    $ bundle install
+    $ ruby ./z5llToXML.rb /path/to/z5ll.txt
+
+This should resolve any issues you're having with mismatched Ruby, gems, or 
+problems requiring specific gems.
+
 Roadmap
 -------
 
