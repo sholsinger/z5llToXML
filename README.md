@@ -1,8 +1,8 @@
 z5llToXML
 =========
 
-Tools for converting ZipInfo.com `z5ll.txt` and `zcugoem.txt` files to Demandware 
-Geolocation XML format files.
+Tools for converting ZipInfo.com `z5ll.txt` and `zcugoem.txt` files to Salesforce Commerce 
+Cloud\* (SFCC) Geolocation XML format files. (\*formerly known as Demandware)
 
 Dependencies
 ------------
@@ -17,7 +17,7 @@ To setup dependencies you must run the following command:
 
     $ bundle install
 
-To convert a file from ZipInfo.com's CSV format into an importable Demandware Geolocation 
+To convert a file from ZipInfo.com's CSV format into an importable SFCC Geolocation 
 XML file is as simple as running the following command:
 
     $ ./z5llToXML.rb /path/to/z5ll.txt
